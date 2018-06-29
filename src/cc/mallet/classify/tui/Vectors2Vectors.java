@@ -253,6 +253,15 @@ public class Vectors2Vectors {
 								   instances.getInstanceWeight(ii));
 				}
 				instances = instances2;
+				Pipe instancePipe;
+				
+				// A new pipe for prune-infogain. This option handled Svm form only for training.
+				// Uses the same pipe as in the training - SvmLight2FeatureVectorAndLabel, so it will work
+				// for this format also in classifier.
+				ArrayList<Pipe> pipeList = new ArrayList<Pipe>();
+				pipeList.add(new SvmLight2FeatureVectorAndLabel(instances.getDataAlphabet(),instances.getTargetAlphabet()));
+				instancePipe = new SerialPipes(pipeList);
+				instances.setPipe(instancePipe);
 			}
 			
 			if (vectorToSequence.value) {
