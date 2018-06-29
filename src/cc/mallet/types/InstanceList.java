@@ -320,22 +320,26 @@ public class InstanceList extends ArrayList<Instance> implements Serializable, I
 			dataAlphabet = instance.getDataAlphabet();
 		if (targetAlphabet == null)
 			targetAlphabet = instance.getTargetAlphabet();
-		if (!Alphabet.alphabetsMatch(this, instance)) {
+	//	if (!Alphabet.alphabetsMatch(this, instance)) {
+      // In our case, we input in the classification the terms (the svm format expects only labels and features). 
+	// Therefore, the svm pipe interprates the terms as the labels and the test in the below line is never true 
+	// (since the labels alphabet is different than the terms alphabet).
+	//	if (!Alphabet.alphabetsMatch(this, instance)) {
       // gsc
-      Alphabet data_alphabet = instance.getDataAlphabet();
-      Alphabet target_alphabet = instance.getTargetAlphabet();
-      StringBuilder sb = new StringBuilder();
-      sb.append("Alphabets don't match: ");
-      sb.append("Instance: [" + (data_alphabet == null ? null : data_alphabet.size()) + ", " +
-          (target_alphabet == null ? null : target_alphabet.size()) + "], ");
-      data_alphabet = this.getDataAlphabet();
-      target_alphabet = this.getTargetAlphabet();
-      sb.append("InstanceList: [" + (data_alphabet == null ? null : data_alphabet.size()) + ", " +
-          (target_alphabet == null ? null : target_alphabet.size()) + "]\n");
-      throw new IllegalArgumentException(sb.toString());
+     // Alphabet data_alphabet = instance.getDataAlphabet();
+   //   Alphabet target_alphabet = instance.getTargetAlphabet();
+    //  StringBuilder sb = new StringBuilder();
+    //  sb.append("Alphabets don't match: ");
+    //  sb.append("Instance: [" + (data_alphabet == null ? null : data_alphabet.size()) + ", " +
+    //      (target_alphabet == null ? null : target_alphabet.size()) + "], ");
+   //   data_alphabet = this.getDataAlphabet();
+    //  target_alphabet = this.getTargetAlphabet();
+   //   sb.append("InstanceList: [" + (data_alphabet == null ? null : data_alphabet.size()) + ", " +
+   //       (target_alphabet == null ? null : target_alphabet.size()) + "]\n");
+   //   throw new IllegalArgumentException(sb.toString());
 //			throw new IllegalArgumentException ("Alphabets don't match: Instance: "+
 //					instance.getAlphabets()+" InstanceList: "+this.getAlphabets());
-    }
+ //   }
 		if (dataClass == null) {
 			dataClass = instance.data.getClass();
 			if (pipe != null && pipe.isTargetProcessing())
