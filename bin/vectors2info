@@ -6,7 +6,7 @@
 
 malletdir=`dirname $0`
 malletdir=`dirname $malletdir`
-cp=$malletdir/lib/mallet.jar:$malletdir/class:$malletdir/lib/mallet-deps.jar:$CLASSPATH
+cp=$malletdir/../lib/mallet.jar:$malletdir/../class:$malletdir/../lib/mallet-deps.jar:$CLASSPATH
 
 # Default Java heap size.  Change with -Xmx800m as the first argument.
 mem=200m
