@@ -42,6 +42,11 @@ public class SvmLight2FeatureVectorAndLabel extends Pipe {
     super (new Alphabet(), new LabelAlphabet());
   }
   
+  // A new pipe constructor that can be initialized on given alphabets (to be used in classifier with prune-info option, as it needs to get as input the alphabets).
+  public SvmLight2FeatureVectorAndLabel (Alphabet dataAlphabet, Alphabet labelAlphabet) {
+	    super (dataAlphabet, labelAlphabet);
+	  }
+  
   // There is no guarantee that the feature indices in the text
   // file will be the same as in the pipe.  The data should be
   // exactly the same, however, just permuted.  
