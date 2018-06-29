@@ -102,7 +102,14 @@ public class SvmLight2Classify {
 			fileReader = new InputStreamReader(new FileInputStream(inputFile.value),encoding.value);
 		}
 		// Read instances from the file
-		instances.addThruPipe(new SelectiveFileLineIterator(fileReader, "^\\s*#.+"));
+		
+		
+		// Additional argument "true" for "SelectiveFileLineIterator"
+		// if this flag it true, terms are stored and printed instead of the uri ("Array i") and then we can see the terms in the output.			
+		instances.addThruPipe(new SelectiveFileLineIterator(fileReader, "^&",true));
+		// Regexp filtering is commented so there is no punctuation filtering 
+		//(this is the default and there is no command line flag to control it in svm2classify). I used this in our case since we do have special marks sometimes.
+				//+ "\\s*#.+"));
 
 		Iterator<Instance> iterator = instances.iterator();
 		// Write classifications to the output file
