@@ -26,6 +26,7 @@ public class SelectiveFileLineIterator implements Iterator<Instance> {
 	String currentLine = null;
 	boolean hasNextUsed = false;
 	String skipRegex;
+	boolean isName = false;
 	
 	public SelectiveFileLineIterator (Reader reader, String skipRegex) {
 		this.reader = new BufferedReader (reader);
@@ -33,6 +34,18 @@ public class SelectiveFileLineIterator implements Iterator<Instance> {
 		this.skipRegex = skipRegex;
 	}
 
+	
+		// a special change in order to present the terms in the result of the svm2classify. 
+	// Without the change, the terms are ignored and replaced by "Array i". 
+	// We added a new constructor "SelectiveFileLineIterator" that gets a bool value. 
+	// When this value is checked to be true, the terms are stored and printed instead of the uri ("Array i").
+	public SelectiveFileLineIterator (Reader reader, String skipRegex, boolean includeName) {
+		this.reader = new BufferedReader (reader);
+		this.index = 0;
+		this.skipRegex = skipRegex;
+		this.isName = true;
+	}
+	
 	public Instance next () {
 		if (!hasNextUsed) {
 			try {
@@ -48,11 +61,30 @@ public class SelectiveFileLineIterator implements Iterator<Instance> {
 		else {
 			hasNextUsed = false;
 		}
+		
+		String [] tokens = null;
+		String name = null;
+		
+		// in this case assign the term to the first element instead of uri
+		if(isName)
+		{
+			tokens = currentLine.split("\\s+");
+			name = tokens[0];
+		}
 
 		URI uri = null;
 		try { uri = new URI ("array:" + index++); }
 		catch (Exception e) { throw new RuntimeException (e); }
-		return new Instance (currentLine, null, uri, null);
+		
+		// if need to print terms, replace uri with the name
+		if(isName == false)
+		{
+			return new Instance (currentLine, null, uri, null);
+		}
+		else
+		{
+			return new Instance (currentLine, null, name, null);
+		}
 	}
 
 	public boolean hasNext ()	{	
